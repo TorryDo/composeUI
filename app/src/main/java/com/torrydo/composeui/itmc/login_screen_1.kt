@@ -3,6 +3,7 @@ package com.torrydo.composeui.itmc
 import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -15,6 +16,8 @@ import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,7 +79,8 @@ fun ITMC_Login_screen_1() {
                 end.linkTo(imageViewID.end, margin = 15.dp)
             }
 
-            createVerticalChain(textFieldAccountID, textFieldPasswordID,
+            createVerticalChain(
+                textFieldAccountID, textFieldPasswordID,
                 chainStyle = ChainStyle.Packed(0.5f)
             )
 
@@ -88,10 +92,7 @@ fun ITMC_Login_screen_1() {
             constrain(textForgotID) {
                 top.linkTo(textFieldPasswordID.bottom, margin = 25.dp)
                 bottom.linkTo(buttonLoginID.top)
-                start.linkTo(textFieldAccountID.start)
                 end.linkTo(textFieldAccountID.end)
-
-                width = Dimension.fillToConstraints
 
             }
             constrain(buttonLoginID) {
@@ -159,6 +160,7 @@ fun ITMC_Login_screen_1() {
                             )
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        visualTransformation = PasswordVisualTransformation(),
                         modifier = Modifier
                             .layoutId(str_txt_password)
                             .wrapContentHeight()
@@ -170,6 +172,9 @@ fun ITMC_Login_screen_1() {
                         modifier = Modifier
                             .layoutId(str_txt_forgot_password)
                             .wrapContentHeight()
+                            .clickable {
+                                buttonClick(context)
+                            }
                     )
                     Button(
                         modifier = Modifier
@@ -193,20 +198,22 @@ fun ITMC_Login_screen_1() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.2f)
-                    .padding(bottom = 15.dp)
-                    ,
+                    .padding(bottom = 15.dp),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_fb),
-                    contentDescription = "fb"
+                    contentDescription = "fb",
+                    modifier = Modifier.clickable { buttonClick(context) },
                 )
                 Image(
                     painter = painterResource(id = R.drawable.ic_google),
-                    contentDescription = "gg"
+                    contentDescription = "gg",
+                    modifier = Modifier.clickable { buttonClick(context) }
                 )
                 Image(
                     painter = painterResource(id = R.drawable.ic_twitter),
-                    contentDescription = "tw"
+                    contentDescription = "tw",
+                    modifier = Modifier.clickable { buttonClick(context) }
                 )
             }
 
@@ -219,7 +226,10 @@ fun ITMC_Login_screen_1() {
             ) {
                 Text(text = DONT_HAVE_AN_ACCOUNT, color = Color.White)
                 Spacer(modifier = Modifier.width(6.dp))
-                Text(text = SIGN_UP_HERE, color = Color("#D98C00".toColorInt()))
+                Text(
+                    text = SIGN_UP_HERE,
+                    color = Color("#D98C00".toColorInt()),
+                    modifier = Modifier.clickable { buttonClick(context) })
             }
 
         }
