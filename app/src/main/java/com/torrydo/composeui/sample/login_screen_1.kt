@@ -1,4 +1,4 @@
-package com.torrydo.composeui.itmc
+package com.torrydo.composeui.sample
 
 import android.content.Context
 import androidx.compose.foundation.Image
@@ -41,7 +41,7 @@ private fun getMainColor() = Color("#F4A200".toColorInt())
 
 @Preview
 @Composable
-fun ITMC_Login_screen_1() {
+fun Login_screen_1() {
 
     val str_image = "imageView"
     val str_txt_account = "textFieldAccount"
@@ -57,6 +57,8 @@ fun ITMC_Login_screen_1() {
 
         var accountText by remember { mutableStateOf("") }
         var passwordText by remember { mutableStateOf("") }
+
+        var isPasswordHided by remember { mutableStateOf(true) }
 
         val card_constraints = ConstraintSet {
 
@@ -75,8 +77,11 @@ fun ITMC_Login_screen_1() {
             }
             constrain(textFieldAccountID) {
                 top.linkTo(imageViewID.bottom)
-                start.linkTo(imageViewID.start, margin = 15.dp)
-                end.linkTo(imageViewID.end, margin = 15.dp)
+                start.linkTo(imageViewID.start, margin = 35.dp)
+                end.linkTo(imageViewID.end, margin = 35.dp)
+
+                width = Dimension.fillToConstraints
+
             }
 
             createVerticalChain(
@@ -88,6 +93,9 @@ fun ITMC_Login_screen_1() {
                 bottom.linkTo(textForgotID.top)
                 start.linkTo(textFieldAccountID.start)
                 end.linkTo(textFieldAccountID.end)
+
+                width = Dimension.fillToConstraints
+
             }
             constrain(textForgotID) {
                 top.linkTo(textFieldPasswordID.bottom, margin = 25.dp)
@@ -145,6 +153,7 @@ fun ITMC_Login_screen_1() {
                             )
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                        singleLine = true,
                         modifier = Modifier
                             .layoutId(str_txt_account)
                             .wrapContentHeight()
@@ -159,8 +168,26 @@ fun ITMC_Login_screen_1() {
                                 contentDescription = "email lock"
                             )
                         },
+                        trailingIcon = {
+                            IconButton(onClick = { isPasswordHided = !isPasswordHided }) {
+                                if (isPasswordHided)
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_slash_eye),
+                                        contentDescription = "email lock",
+                                    )
+                                else
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_eye),
+                                        contentDescription = "email lock"
+                                    )
+                            }
+                        },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                        visualTransformation = PasswordVisualTransformation(),
+                        visualTransformation = if (isPasswordHided)
+                            PasswordVisualTransformation()
+                        else
+                            VisualTransformation.None,
+                        singleLine = true,
                         modifier = Modifier
                             .layoutId(str_txt_password)
                             .wrapContentHeight()
