@@ -30,6 +30,7 @@ import com.torrydo.composeui.ui.theme.Blue200
 import com.torrydo.composeui.ui.theme.Padding_big
 import com.torrydo.composeui.utils.showShortToast
 
+private val LOREM_IPSUM = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
 
 private val ICON_BUTTON_SIZE = 48.dp
 private val IMAGE_ITEM_SIZE = 250.dp
@@ -37,21 +38,24 @@ private val CARD_BORDER_RADIUS = 25.dp
 private val CARD_BORDER_RADIUS_BIGGER = 35.dp
 private val CARD_BORDER_RADIUS_PERCENT = 10
 
-private val ELEVATION_BIG = 15.dp
+private val ELEVATION_BIG = 10.dp
 private val ELEVATION_BIGGER = 25.dp
 
 private val CHIP_SIZE = 40.dp
 
+private val GOODS_PRICE = "69.99$"
 
 private val TOP_BAR_HEIGHT = 60.dp
-private val BORDER_SIZE = 4.dp
+private val BORDER_SIZE = 3.dp
 private val BORDER_COLOR = Color.White
 
 private val mauTraSua = Color(0xFFF9F3E7)
+private val MAIN_COLOR_LIGHTEST = Color(0xFFFFFCF9)
 
 private val CHOSE_COLOR = Color(0xFFE0AB5B)
+private val GREY_LIGHTEST = Color(0xFFF8F8F8)
 
-private val FONT_BIG = 25.sp
+private val FONT_MEDIUM = 20.sp
 
 private val FAKE_OPTIONS = listOf(
     "Cà chua",
@@ -78,9 +82,9 @@ fun Merchandise_screen_1() {
             .background(
                 Brush.horizontalGradient(
                     colors = listOf(
-                        Color.White,
-                        Color.White,
-                        Color.White,
+                        MAIN_COLOR_LIGHTEST,
+                        MAIN_COLOR_LIGHTEST,
+                        MAIN_COLOR_LIGHTEST,
                         Blue200
                     )
                 )
@@ -151,12 +155,12 @@ fun Merchandise_screen_1() {
 
             }) {
             Text(
-                text = "Title",
+                text = "Gradients",
                 fontWeight = FontWeight.Bold,
-                fontSize = FONT_BIG,
+                fontSize = FONT_MEDIUM,
                 color = Color.Black
             )
-            Text(text = "looreaskf dsfajsd vasdjfdshf cds ksdjhfajkhc jasdhf", color = Color.Gray)
+            Text(text = LOREM_IPSUM, color = Color.Gray)
         }
 
         // amount
@@ -167,7 +171,7 @@ fun Merchandise_screen_1() {
                 bottom.linkTo(optionsID.top, 20.dp)
 
                 width = Dimension.fillToConstraints
-                height = Dimension.value(90.dp)
+                height = Dimension.value(80.dp)
             }
         )
 
@@ -176,7 +180,7 @@ fun Merchandise_screen_1() {
         OptionsComponent(modifier = Modifier.constrainAs(optionsID) {
             start.linkTo(parent.start)
             end.linkTo(parent.end)
-            bottom.linkTo(H_GuideLine_bottom)
+            bottom.linkTo(H_GuideLine_bottom, 20.dp)
 
             width = Dimension.fillToConstraints
             height = Dimension.value(80.dp)
@@ -191,17 +195,57 @@ fun Merchandise_screen_1() {
             elevation = ButtonDefaults.elevation(ELEVATION_BIG),
             modifier = Modifier
                 .constrainAs(buttonPurchaseID) {
-                    start.linkTo(parent.start, margin = 30.dp)
-                    end.linkTo(parent.end, margin = 30.dp)
-                    bottom.linkTo(parent.bottom, 10.dp)
+                    start.linkTo(parent.start, 40.dp)
+                    end.linkTo(parent.end, 40.dp)
+                    bottom.linkTo(parent.bottom, 20.dp)
                     top.linkTo(H_GuideLine_bottom, 10.dp)
 
                     width = Dimension.fillToConstraints
-                    height = Dimension.value(70.dp)
+                    height = Dimension.value(60.dp)
 
                 }
         ) {
-            Text(text = "clickme", color = Color.White)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(modifier = Modifier.width(10.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.ic_voucher),
+                    contentDescription = "voucher",
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(ICON_BUTTON_SIZE)
+                        .zIndex(1f)
+                        .padding(5.dp)
+                )
+                Text(
+                    text = GOODS_PRICE,
+                    fontSize = FONT_MEDIUM,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = "BUY",
+                    fontSize = FONT_MEDIUM,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    color = Color.White,
+                    modifier = Modifier.weight(1f)
+                )
+                Image(
+                    painter = painterResource(id = R.drawable.ic_buy_hand),
+                    contentDescription = "voucher",
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(ICON_BUTTON_SIZE)
+                        .zIndex(1f)
+                        .padding(5.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+            }
         }
 
     }
@@ -218,16 +262,17 @@ fun AmountComponent(modifier: Modifier) {
         Text(
             text = "Amount",
             textAlign = TextAlign.Start,
-            fontSize = FONT_BIG,
+            fontSize = FONT_MEDIUM,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.height(10.dp))
         Card(
             shape = RoundedCornerShape(CARD_BORDER_RADIUS),
             elevation = ELEVATION_BIG,
+            backgroundColor = MAIN_COLOR_LIGHTEST,
             modifier = Modifier
                 .fillMaxHeight()
-                .width(200.dp)
+                .width(180.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -270,7 +315,7 @@ fun AmountComponent(modifier: Modifier) {
                 Text(
                     text = amount.toString(),
                     textAlign = TextAlign.Center,
-                    fontSize = FONT_BIG,
+                    fontSize = FONT_MEDIUM,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -292,36 +337,53 @@ fun OptionsComponent(modifier: Modifier) {
         Text(
             text = "Options",
             textAlign = TextAlign.Start,
-            fontSize = FONT_BIG,
+            fontSize = FONT_MEDIUM,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(start = 40.dp)
         )
 
-        LazyRow(modifier = Modifier.fillMaxSize()) {
+        LazyRow(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 10.dp)
+        ) {
             itemsIndexed(items = FAKE_OPTIONS) { index, option ->
                 Card(
                     onClick = { whichOneWillUserChoose = index },
 
                     backgroundColor = if (index == whichOneWillUserChoose)
-                        CHOSE_COLOR else Color.White,
+                        CHOSE_COLOR else MAIN_COLOR_LIGHTEST,
                     shape = RoundedCornerShape(CARD_BORDER_RADIUS),
                     elevation = ELEVATION_BIG,
                     modifier = Modifier
                         .fillMaxHeight()
+                        .padding(
+                            start = if (index == 0) 40.dp else 5.dp,
+                            end = 5.dp
+                        )
                         .border(
                             BORDER_SIZE,
                             BORDER_COLOR,
                             shape = RoundedCornerShape(CARD_BORDER_RADIUS)
                         )
+
                 ) {
-                    Text(
-                        text = option,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        color = if (index == whichOneWillUserChoose)
-                            Color.Black else Color.Gray,
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.fillMaxSize()
-                    )
+                    ) {
+                        Spacer(modifier = Modifier.width(30.dp))
+                        Text(
+                            text = option,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            fontSize = 16.sp,
+                            color = if (index == whichOneWillUserChoose)
+                                Color.Black else Color.Gray,
+                        )
+                        Spacer(modifier = Modifier.width(30.dp))
+                    }
+
                 }
             }
         }
@@ -348,16 +410,41 @@ fun CardItemComponent(modifier: Modifier) {
 
             val GL_35 = createGuidelineFromTop(0.4f)
 
-            Box(modifier = Modifier
-                .width(100.dp)
-                .height(40.dp)
-                .zIndex(1f)
-                .background(Color.Blue)
-                .constrainAs(typeID) {
-                    top.linkTo(parent.top, Padding_big)
-                    end.linkTo(parent.end, Padding_big)
+            Card(
+                backgroundColor = CHOSE_COLOR,
+                shape = RoundedCornerShape(CARD_BORDER_RADIUS),
+                elevation = ELEVATION_BIG,
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(40.dp)
+                    .zIndex(1f)
+                    .border(
+                        BORDER_SIZE,
+                        BORDER_COLOR,
+                        shape = RoundedCornerShape(CARD_BORDER_RADIUS)
+                    )
+                    .constrainAs(typeID) {
+                        top.linkTo(parent.top, Padding_big)
+                        end.linkTo(parent.end, Padding_big)
+                    },
+
+                ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Spacer(modifier = Modifier.width(30.dp))
+                    Text(
+                        text = "Pizza",
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center,
+                        fontSize = 16.sp,
+                        color = Color.Black,
+                    )
+                    Spacer(modifier = Modifier.width(30.dp))
                 }
-            )
+
+            }
 
             Image(
                 painter = painterResource(id = R.drawable.pizza_1024x1024),
