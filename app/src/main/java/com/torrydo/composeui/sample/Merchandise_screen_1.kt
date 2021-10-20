@@ -30,7 +30,9 @@ import com.torrydo.composeui.ui.theme.Blue200
 import com.torrydo.composeui.ui.theme.Padding_big
 import com.torrydo.composeui.utils.showShortToast
 
-private val LOREM_IPSUM = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
+
+private val LOREM_IPSUM =
+    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
 
 private val ICON_BUTTON_SIZE = 48.dp
 private val IMAGE_ITEM_SIZE = 250.dp
@@ -57,18 +59,18 @@ private val GREY_LIGHTEST = Color(0xFFF8F8F8)
 
 private val FONT_MEDIUM = 20.sp
 
-private val FAKE_OPTIONS = listOf(
-    "Cà chua",
-    "Phô mai",
-    "Hun khói",
-    "Chua ngọt",
-    "Valentine",
-    "Cà chua",
-    "Phô mai",
-    "Hun khói",
-    "Chua ngọt",
-    "Valentine",
-)
+//private val FAKE_OPTIONS = listOf(
+//    "Cà chua",
+//    "Phô mai",
+//    "Hun khói",
+//    "Chua ngọt",
+//    "Valentine",
+//    "Cà chua",
+//    "Phô mai",
+//    "Hun khói",
+//    "Chua ngọt",
+//    "Valentine",
+//)
 
 @ExperimentalMaterialApi
 @Preview
@@ -155,7 +157,7 @@ fun Merchandise_screen_1() {
 
             }) {
             Text(
-                text = "Gradients",
+                text = "Thành Phần",
                 fontWeight = FontWeight.Bold,
                 fontSize = FONT_MEDIUM,
                 color = Color.Black
@@ -260,7 +262,7 @@ fun AmountComponent(modifier: Modifier) {
         modifier = modifier
     ) {
         Text(
-            text = "Amount",
+            text = "Số Lượng",
             textAlign = TextAlign.Start,
             fontSize = FONT_MEDIUM,
             fontWeight = FontWeight.Bold
@@ -293,7 +295,10 @@ fun AmountComponent(modifier: Modifier) {
                         .width(60.dp)
                         .fillMaxHeight()
                 ) {
-                    Text(text = "-", color = Color.White)
+                    Text(
+                        text = "-",
+                        color = Color.White
+                    )
                 }
                 Spacer(modifier = Modifier.width(3.dp))
                 Button(
@@ -310,7 +315,10 @@ fun AmountComponent(modifier: Modifier) {
                         .width(60.dp)
                         .fillMaxHeight()
                 ) {
-                    Text(text = "+", color = Color.White)
+                    Text(
+                        text = "+",
+                        color = Color.White
+                    )
                 }
                 Text(
                     text = amount.toString(),
@@ -327,15 +335,33 @@ fun AmountComponent(modifier: Modifier) {
     }
 }
 
+data class AllergyOption(val name: String, var isTrue: Boolean)
+
 @ExperimentalMaterialApi
 @Composable
 fun OptionsComponent(modifier: Modifier) {
 
-    var whichOneWillUserChoose by remember { mutableStateOf(0) }
+    val FAKE_OPTIONS = remember {
+        mutableStateListOf(
+            AllergyOption("Cà chua", false),
+            AllergyOption("Hành tây", false),
+            AllergyOption("Bột ngọt", false),
+            AllergyOption("Calo", false),
+            AllergyOption("Ngô", false),
+            AllergyOption("Tôm", false),
+            AllergyOption("Tiêu", false),
+            AllergyOption("Cà chua", false),
+            AllergyOption("Hành tây", false),
+            AllergyOption("Bột ngọt", false),
+        )
+
+    }
+
+
 
     Column(modifier = modifier) {
         Text(
-            text = "Options",
+            text = "Dị ứng",
             textAlign = TextAlign.Start,
             fontSize = FONT_MEDIUM,
             fontWeight = FontWeight.Bold,
@@ -348,10 +374,13 @@ fun OptionsComponent(modifier: Modifier) {
                 .padding(top = 10.dp)
         ) {
             itemsIndexed(items = FAKE_OPTIONS) { index, option ->
-                Card(
-                    onClick = { whichOneWillUserChoose = index },
 
-                    backgroundColor = if (index == whichOneWillUserChoose)
+                Card(
+                    onClick = {
+                        FAKE_OPTIONS[index] =
+                            AllergyOption(option.name, !option.isTrue)
+                    },
+                    backgroundColor = if (option.isTrue)
                         CHOSE_COLOR else MAIN_COLOR_LIGHTEST,
                     shape = RoundedCornerShape(CARD_BORDER_RADIUS),
                     elevation = ELEVATION_BIG,
@@ -374,11 +403,11 @@ fun OptionsComponent(modifier: Modifier) {
                     ) {
                         Spacer(modifier = Modifier.width(30.dp))
                         Text(
-                            text = option,
+                            text = option.name,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
                             fontSize = 16.sp,
-                            color = if (index == whichOneWillUserChoose)
+                            color = if (option.isTrue)
                                 Color.Black else Color.Gray,
                         )
                         Spacer(modifier = Modifier.width(30.dp))
@@ -393,6 +422,9 @@ fun OptionsComponent(modifier: Modifier) {
 
 @Composable
 fun CardItemComponent(modifier: Modifier) {
+
+    val rating by remember { mutableStateOf(5f) }
+    var votedUser by remember { mutableStateOf(69) }
 
     Card(
         shape = RoundedCornerShape(CARD_BORDER_RADIUS),
@@ -481,6 +513,7 @@ fun CardItemComponent(modifier: Modifier) {
             )
 
             Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .zIndex(0.5f)
                     .constrainAs(contentID) {
@@ -492,7 +525,17 @@ fun CardItemComponent(modifier: Modifier) {
                         height = Dimension.wrapContent
                     }
             ) {
-                Text(text = "4,5", fontWeight = FontWeight.Bold)
+                Text(text = rating.toString(), fontWeight = FontWeight.Bold)
+                RatingBar(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .height(30.dp)
+                        .padding(horizontal = 10.dp),
+                    rate = rating
+                )
+
+                Text(text = "(${votedUser})", fontWeight = FontWeight.Bold, color = Color.Gray)
+
             }
 
             Card(
@@ -520,6 +563,44 @@ fun CardItemComponent(modifier: Modifier) {
             }
         }
 
+    }
+}
+
+@Composable
+fun RatingBar(modifier: Modifier, rate: Float) {
+    val spaceIndex = 5.dp
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+        Spacer(modifier = Modifier.width(spaceIndex))
+        Image(
+            painter = painterResource(id = R.drawable.ic_star),
+            contentDescription = "rating",
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(spaceIndex))
+        Image(
+            painter = painterResource(id = R.drawable.ic_star),
+            contentDescription = "rating",
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(spaceIndex))
+        Image(
+            painter = painterResource(id = R.drawable.ic_star),
+            contentDescription = "rating",
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(spaceIndex))
+        Image(
+            painter = painterResource(id = R.drawable.ic_star),
+            contentDescription = "rating",
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(spaceIndex))
+        Image(
+            painter = painterResource(id = R.drawable.ic_star),
+            contentDescription = "rating",
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(spaceIndex))
     }
 }
 
