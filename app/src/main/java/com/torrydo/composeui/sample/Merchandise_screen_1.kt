@@ -107,10 +107,11 @@ fun Merchandise_screen_1() {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
+                .padding(horizontal = 10.dp)
                 .constrainAs(topBarID) {
                     top.linkTo(parent.top)
-                    start.linkTo(parent.start, 10.dp)
-                    end.linkTo(parent.end, 10.dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
 
                     width = Dimension.fillToConstraints
                     height = Dimension.value(TOP_BAR_HEIGHT)
@@ -534,7 +535,7 @@ fun CardItemComponent(modifier: Modifier) {
                     rate = rating
                 )
 
-                Text(text = "(${votedUser})", fontWeight = FontWeight.Bold, color = Color.Gray)
+                Text(text = "($votedUser)", fontWeight = FontWeight.Bold, color = Color.Gray)
 
             }
 
