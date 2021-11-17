@@ -26,10 +26,11 @@ import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.torrydo.composeui.R
-import com.torrydo.composeui.ui.theme.Blue200
-import com.torrydo.composeui.ui.theme.Padding_big
 import com.torrydo.composeui.utils.showShortToast
 
+/** Author: Nguyen Do Tri
+ *  Last modified d/m/y : 23/10/2021
+ * */
 
 private val LOREM_IPSUM =
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s..."
@@ -43,34 +44,25 @@ private val CARD_BORDER_RADIUS_PERCENT = 10
 private val ELEVATION_BIG = 10.dp
 private val ELEVATION_BIGGER = 25.dp
 
-private val CHIP_SIZE = 40.dp
+private val Padding_big = 25.dp
 
-private val GOODS_PRICE = "69.99$"
+
+private const val GOODS_PRICE = "69.99$"
 
 private val TOP_BAR_HEIGHT = 60.dp
 private val BORDER_SIZE = 3.dp
+
+
 private val BORDER_COLOR = Color.White
 
 private val mauTraSua = Color(0xFFF9F3E7)
 private val MAIN_COLOR_LIGHTEST = Color(0xFFFFFCF9)
-
 private val CHOSE_COLOR = Color(0xFFE0AB5B)
 private val GREY_LIGHTEST = Color(0xFFF8F8F8)
+private val Blue200 = Color(0xFFE6F2FF)
 
+private val CHIP_SIZE = 40.dp
 private val FONT_MEDIUM = 20.sp
-
-//private val FAKE_OPTIONS = listOf(
-//    "Cà chua",
-//    "Phô mai",
-//    "Hun khói",
-//    "Chua ngọt",
-//    "Valentine",
-//    "Cà chua",
-//    "Phô mai",
-//    "Hun khói",
-//    "Chua ngọt",
-//    "Valentine",
-//)
 
 @ExperimentalMaterialApi
 @Preview
@@ -161,7 +153,8 @@ fun Merchandise_screen_1() {
                 text = "Thành Phần",
                 fontWeight = FontWeight.Bold,
                 fontSize = FONT_MEDIUM,
-                color = Color.Black
+                color = Color.Black,
+                maxLines = 4
             )
             Text(text = LOREM_IPSUM, color = Color.Gray)
         }
@@ -189,7 +182,7 @@ fun Merchandise_screen_1() {
             height = Dimension.value(80.dp)
         })
 
-        //
+        // purchase
         Button(
             onClick = { OnClick(context) },
             shape = RoundedCornerShape(50),
@@ -240,7 +233,7 @@ fun Merchandise_screen_1() {
                 )
                 Image(
                     painter = painterResource(id = R.drawable.ic_buy_hand),
-                    contentDescription = "voucher",
+                    contentDescription = "purchase",
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(ICON_BUTTON_SIZE)
@@ -336,7 +329,7 @@ fun AmountComponent(modifier: Modifier) {
     }
 }
 
-data class AllergyOption(val name: String, var isTrue: Boolean)
+data class AllergyOption(val name: String, var haveAllergy: Boolean)
 
 @ExperimentalMaterialApi
 @Composable
@@ -355,9 +348,7 @@ fun OptionsComponent(modifier: Modifier) {
             AllergyOption("Hành tây", false),
             AllergyOption("Bột ngọt", false),
         )
-
     }
-
 
 
     Column(modifier = modifier) {
@@ -379,9 +370,9 @@ fun OptionsComponent(modifier: Modifier) {
                 Card(
                     onClick = {
                         FAKE_OPTIONS[index] =
-                            AllergyOption(option.name, !option.isTrue)
+                            AllergyOption(option.name, !option.haveAllergy)
                     },
-                    backgroundColor = if (option.isTrue)
+                    backgroundColor = if (option.haveAllergy)
                         CHOSE_COLOR else MAIN_COLOR_LIGHTEST,
                     shape = RoundedCornerShape(CARD_BORDER_RADIUS),
                     elevation = ELEVATION_BIG,
@@ -408,7 +399,7 @@ fun OptionsComponent(modifier: Modifier) {
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
                             fontSize = 16.sp,
-                            color = if (option.isTrue)
+                            color = if (option.haveAllergy)
                                 Color.Black else Color.Gray,
                         )
                         Spacer(modifier = Modifier.width(30.dp))
@@ -425,7 +416,7 @@ fun OptionsComponent(modifier: Modifier) {
 fun CardItemComponent(modifier: Modifier) {
 
     val rating by remember { mutableStateOf(5f) }
-    var votedUser by remember { mutableStateOf(69) }
+    val votedUser by remember { mutableStateOf(69) }
 
     Card(
         shape = RoundedCornerShape(CARD_BORDER_RADIUS),
@@ -484,7 +475,6 @@ fun CardItemComponent(modifier: Modifier) {
                 contentDescription = "goods",
                 modifier = Modifier
                     .zIndex(0.8f)
-//                    .shadow(elevation = ELEVATION_BIGGER)
                     .constrainAs(imageID) {
                         start.linkTo(parent.start, margin = 40.dp)
                         end.linkTo(parent.end, margin = 40.dp)
